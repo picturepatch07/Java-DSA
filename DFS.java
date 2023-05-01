@@ -1,6 +1,8 @@
+package com.company;
+
 import java.util.*;
 
-public class BFS {
+public class DFS {
 
     static class Graph {
         int V;
@@ -18,21 +20,19 @@ public class BFS {
             adjList[v].add(w);
         }
 
-        Set<Integer> bfs(int start) {
-            Queue<Integer> queue = new LinkedList<>();
+        Set<Integer> dfs(int start) {
             Set<Integer> visited = new HashSet<>();
-            queue.add(start);
-            visited.add(start);
-            while (!queue.isEmpty()) {
-                int current = queue.poll();
-                for (int neighbor : adjList[current]) {
-                    if (!visited.contains(neighbor)) {
-                        queue.add(neighbor);
-                        visited.add(neighbor);
-                    }
+            dfsHelper(start, visited);
+            return visited;
+        }
+
+        void dfsHelper(int current, Set<Integer> visited) {
+            visited.add(current);
+            for (int neighbor : adjList[current]) {
+                if (!visited.contains(neighbor)) {
+                    dfsHelper(neighbor, visited);
                 }
             }
-            return visited;
         }
     }
 
@@ -46,8 +46,8 @@ public class BFS {
         graph.addEdge(2, 3);
         graph.addEdge(3, 4);
 
-        // Perform BFS starting from node 0
-        Set<Integer> visited = graph.bfs(0);
+        // Perform DFS starting from node 0
+        Set<Integer> visited = graph.dfs(0);
         System.out.println(visited);
     }
 }
